@@ -19,26 +19,15 @@ lemmatizer = WordNetLemmatizer()
 def preprocess_text(text: str) -> str:
     if not isinstance(text, str):
         return ""
-
-    # 1️⃣ Lowercase
+    
     text = text.lower()
-
-    # 2️⃣ Hapus URL
     text = re.sub(r"http\S+|www\S+", " ", text)
-
-    # 3️⃣ Hapus angka & tanda baca, tapi simpan huruf a-zA-Z
     text = re.sub(r"[^a-zA-Z\s]", " ", text)
-
-    # 4️⃣ Hapus spasi ganda
     text = re.sub(r"\s+", " ", text).strip()
-
-    # 5️⃣ Tokenisasi
+    
     tokens = text.split()
-
-    # 6️⃣ Hapus stopwords & token pendek
     tokens = [w for w in tokens if w not in stop_words and len(w) >= 3]
-
-    # 7️⃣ Stemming + Lemmatization
+    
     cleaned_tokens = []
     for w in tokens:
         # Lemmatize Inggris
@@ -46,6 +35,6 @@ def preprocess_text(text: str) -> str:
         # Stem Indo
         stemmed = stemmer.stem(lemma)
         cleaned_tokens.append(stemmed)
-
-    # 8️⃣ Gabungkan kembali
+    
+    # Gabungkan kembali
     return " ".join(cleaned_tokens)
